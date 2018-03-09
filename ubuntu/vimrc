@@ -1,0 +1,101 @@
+set nocompatible              " required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+Plugin 'tmhedberg/SimpylFold'
+Plugin 'vim-scripts/indentpython.vim'
+Bundle 'Valloric/YouCompleteMe'
+Plugin 'scrooloose/syntastic'
+Plugin 'nvie/vim-flake8'
+Plugin 'scrooloose/nerdtree'
+Plugin 'jistr/vim-nerdtree-tabs'
+Plugin 'tpope/vim-fugitive'
+Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+Plugin 'derekwyatt/vim-scala'
+Plugin 'jnurmine/Zenburn'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'jeffkreeftmeijer/vim-numbertoggle'
+Plugin 'leafgarland/typescript-vim'
+Plugin 'jlanzarotta/bufexplorer'
+
+" Add all your plugins here (note older versions of Vundle used Bundle instead of Plugin)
+
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+" Enable folding
+set foldmethod=indent
+set foldlevel=99
+
+" Enable folding with the spacebar
+nnoremap <space> za
+
+" leader key
+let mapleader=","
+
+" highlight 
+highlight BadWhitespace ctermbg=red guibg=darkred
+au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+
+" YCM
+let g:ycm_autoclose_preview_window_after_completion=1
+map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+" python syntax
+let python_highlight_all=1
+syntax on
+
+" NerdTree
+let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
+map <C-n> :NERDTreeToggle<CR>
+
+" python indent
+map <C-z> :IndentGuidesToggle<CR>
+let g:indent_guides_auto_colors = 0
+let g:indent_guides_start_level = 2
+let g:indent_guides_guide_size = 1
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red    ctermbg=11
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green  ctermbg=12
+
+" line number
+set nu
+let g:NumberToggleTrigger="<F2>"
+
+" split screen scroll sync
+map <F3> :call ScbToggle()<CR>
+function! ScbToggle()
+    if &scrollbind
+        windo set scb!
+    else
+	windo set scb
+    endif
+endfunction
+
+" buffer
+set wildchar=<Tab> wildmenu wildmode=full
+map <F12> :BufExplorer<CR>
+nnoremap  <silent>   <tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bnext<CR>
+nnoremap  <silent> <s-tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
+nnoremap <Leader>l :ls<CR>
+
+" trival
+set clipboard=unnamed
+set hlsearch
+set splitbelow
+set splitright
+colorscheme zenburn
+set cursorline
+
+"let g:typescript_compiler_binary = 'tsc'
+"let g:typescript_compiler_options = ''
